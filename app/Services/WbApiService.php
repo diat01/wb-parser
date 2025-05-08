@@ -25,7 +25,7 @@ class WbApiService
             'orders' => $this->getOrders($dateFrom, $dateTo, 1, $limit),
             'stocks' => $this->getStocks($dateFrom, 1, $limit),
             'incomes' => $this->getIncomes($dateFrom, $dateTo, 1, $limit),
-    ];
+        ];
     }
 
     public function getSales(string $dateFrom, string $dateTo, int $page = 1, ?int $limit = null)
