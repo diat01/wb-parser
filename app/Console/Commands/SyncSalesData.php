@@ -36,14 +36,12 @@ class SyncSalesData extends Command
 
         $this->info("Syncing sales data from $dateFrom to $dateTo...");
 
-        $response = $wbApiService->getSales($dateFrom, $dateTo, 1, $limit);
+        $sales = $wbApiService->getAllSales($dateFrom, $dateTo, $limit);
 
-        if (empty($response['data'])) {
+        if (empty($sales)) {
             $this->error('No sales data received from API');
             return;
         }
-
-        $sales = $response['data'];
 
         $this->info("Processing ".count($sales)." sales records...");
 

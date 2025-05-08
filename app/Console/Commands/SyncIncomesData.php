@@ -36,14 +36,12 @@ class SyncIncomesData extends Command
 
         $this->info("Syncing incomes data from $dateFrom to $dateTo...");
 
-        $response = $wbApiService->getIncomes($dateFrom, $dateTo, 1, $limit);
+        $incomes = $wbApiService->getAllIncomes($dateFrom, $dateTo, $limit);
 
-        if (empty($response['data'])) {
+        if (empty($incomes)) {
             $this->error('No incomes data received from API');
             return;
         }
-
-        $incomes = $response['data'];
 
         $this->info("Processing ".count($incomes)." incomes records...");
 

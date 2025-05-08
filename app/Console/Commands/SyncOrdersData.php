@@ -36,14 +36,12 @@ class SyncOrdersData extends Command
 
         $this->info("Syncing orders data from $dateFrom to $dateTo...");
 
-        $response = $wbApiService->getOrders($dateFrom, $dateTo, 1, $limit);
+        $orders = $wbApiService->getAllOrders($dateFrom, $dateTo, $limit);
 
-        if (empty($response['data'])) {
+        if (empty($orders)) {
             $this->error('No orders data received from API');
             return;
         }
-
-        $orders = $response['data'];
 
         $this->info("Processing ".count($orders)." orders records...");
 
