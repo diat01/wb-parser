@@ -206,3 +206,12 @@ Each model uses proper `$casts` and `$fillable` fields for clean data handling.
    git push origin feature/my-feature
    ```
 5. Open a Pull Request on GitHub
+
+---
+
+## 🤝 Contact
+
+Have questions? Want to contribute?
+
+- [GitHub Issues](https://github.com/diat01/wb-parser/issues)
+- Email: didarov.atageldi@gmail.com
