@@ -28,7 +28,7 @@ class WbApiService
         ];
     }
 
-    public function getSales(string $dateFrom, string $dateTo, int $page = 1, ?int $limit = null)
+    public function getSales(string $dateFrom, string $dateTo, int $page = 1, ?int $limit = null): array
     {
         return $this->makeRequest('api/sales', [
             'dateFrom' => $dateFrom,
@@ -84,5 +84,81 @@ class WbApiService
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
         ], $page, $limit);
+    }
+
+    public function getAllSales(string $dateFrom, string $dateTo, ?int $limit = null): array
+    {
+        return $this->getAllPagesForEndpoint('api/sales', [
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+        ], $limit);
+    }
+
+    protected function getAllPagesForEndpoint(string $endpoint, array $baseParams, ?int $limit = null): array
+    {
+        $allData = [];
+        $page = 1;
+        $totalPages = PHP_INT_MAX;
+
+        while ($page <= $totalPages) {
+            try {
+                $params = array_merge($baseParams, [
+                    'key' => $this->apiKey,
+                    'page' => $page,
+                    'limit' => $limit ?? $this->defaultLimit,
+                ]);
+
+                $response = Http::baseUrl($this->baseUrl)
+                    ->timeout(30)
+                    ->retry(3, 100)
+                    ->acceptJson()
+                    ->get($endpoint, $params);
+
+                if (!$response->successful()) {
+                    Log::error("WB API Error [{$endpoint} - page {$page}]: ".$response->status().' - '.$response->body());
+                    break;
+                }
+
+                $responseData = $response->json();
+
+                if (isset($responseData['meta']['last_page'])) {
+                    $totalPages = (int) $responseData['meta']['last_page'];
+                }
+
+                if (!empty($responseData['data'])) {
+                    $allData = array_merge($allData, $responseData['data']);
+                }
+
+                $page++;
+            } catch (\Exception $e) {
+                Log::error("WB API Exception [{$endpoint}, page {$page}]: ".$e->getMessage());
+                break;
+            }
+        }
+
+        return $allData;
+    }
+
+    public function getAllOrders(string $dateFrom, string $dateTo, ?int $limit = null): array
+    {
+        return $this->getAllPagesForEndpoint('api/orders', [
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+        ], $limit);
+    }
+
+    public function getAllStocks(string $dateFrom, ?int $limit = null): array
+    {
+        return $this->getAllPagesForEndpoint('api/stocks', [
+            'dateFrom' => $dateFrom,
+        ], $limit);
+    }
+
+     public function getAllIncomes(string $dateFrom, string $dateTo, ?int $limit = null): array
+    {
+        return $this->getAllPagesForEndpoint('api/incomes', [
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+        ], $limit);
     }
 }
