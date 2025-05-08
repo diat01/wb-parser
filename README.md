@@ -64,6 +64,21 @@ WB_API_DEFAULT_LIMIT=500
 
 ---
 
+## 🌐 Supported API Endpoints
+
+The application uses the following WB API endpoints to fetch data:
+
+| Endpoint           | Purpose     |
+|--------------------|-------------|
+| `GET /api/sales`   | Sales data  |
+| `GET /api/orders`  | Order data  |
+| `GET /api/incomes` | Income data |
+| `GET /api/stocks`  | Stock data  |
+
+All requests include automatic pagination handling to fetch full datasets.
+
+---
+
 ## 📦 Command Line Usage
 
 Each data type has its own command to allow fine-grained control.
