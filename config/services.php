@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'wb_api' => [
+        'base_url' => env('WB_API_BASE_URL'),
+        'key' => env('WB_API_KEY'),
+        'default_limit' => env('WB_API_DEFAULT_LIMIT', 500),
+    ],
+
 ];
