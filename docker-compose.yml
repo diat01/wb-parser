@@ -1,24 +1,4 @@
 services:
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: wb-parser-app
-        ports:
-            - "8000:8000"
-        volumes:
-            - .:/var/www/html
-        environment:
-            DB_HOST: mysql
-            DB_PORT: ${DB_PORT}
-            DB_DATABASE: ${DB_DATABASE}
-            DB_USERNAME: ${DB_USERNAME}
-            DB_PASSWORD: ${DB_PASSWORD}
-        depends_on:
-            - mysql
-        networks:
-            - wb-network
-
     mysql:
         image: mysql:9.0-oracle
         container_name: wb-parser-mysql
@@ -29,7 +9,6 @@ services:
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
         volumes:
             - mysql_data:/var/lib/mysql
-            - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
         ports:
             - "${DB_PORT:-3306}:3306"
         networks:
@@ -42,7 +21,7 @@ services:
 
     redis:
         image: redis:alpine
-        container_name: wb-api-redis
+        container_name: wb-parser-redis
         ports:
             - "${REDIS_PORT:-6379}:6379"
         volumes:
