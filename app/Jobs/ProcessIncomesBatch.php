@@ -18,6 +18,7 @@ class ProcessIncomesBatch implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 3;
+
     public array $backoff = [10, 30, 60];
 
     /**
@@ -30,6 +31,7 @@ class ProcessIncomesBatch implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @throws Exception
      */
     public function handle(IncomeAction $incomeAction): void
@@ -41,14 +43,14 @@ class ProcessIncomesBatch implements ShouldQueue
         try {
             $processed = $incomeAction->processChunk($this->incomeData);
 
-            Log::info("ProcessIncomesBatch completed", [
+            Log::info('ProcessIncomesBatch completed', [
                 'processed' => $processed,
-                'total' => count($this->incomeData)
+                'total' => count($this->incomeData),
             ]);
         } catch (Exception $e) {
-            Log::error("ProcessIncomesBatch failed", [
+            Log::error('ProcessIncomesBatch failed', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
             throw $e;
         }
@@ -59,9 +61,9 @@ class ProcessIncomesBatch implements ShouldQueue
      */
     public function failed(Throwable $exception): void
     {
-        Log::critical("ProcessIncomesBatch job failed after retries", [
+        Log::critical('ProcessIncomesBatch job failed after retries', [
             'error' => $exception->getMessage(),
-            'data_sample' => array_slice($this->incomeData, 0, 2)
+            'data_sample' => array_slice($this->incomeData, 0, 2),
         ]);
     }
 }

@@ -33,7 +33,7 @@ class Sale extends Model
         'subject',
         'category',
         'brand',
-        'is_storno'
+        'is_storno',
     ];
 
     protected $casts = [
@@ -47,6 +47,6 @@ class Sale extends Model
         'spp' => 'decimal:2',
         'for_pay' => 'decimal:2',
         'finished_price' => 'decimal:2',
-        'price_with_disc' => 'decimal:2'
+        'price_with_disc' => 'decimal:2',
     ];
 }

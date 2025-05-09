@@ -12,7 +12,6 @@ class IncomeAction
     /**
      * Dispatch income data in chunks to queue using the ProcessIncomesBatch job
      *
-     * @param  array  $incomeData
      * @return int Number of dispatched records
      */
     public function executeBatch(array $incomeData): int
@@ -27,7 +26,7 @@ class IncomeAction
             } catch (Exception $e) {
                 Log::error('Failed to dispatch ProcessIncomesBatch job', [
                     'error' => $e->getMessage(),
-                    'chunk_sample' => array_slice($chunk, 0, 2)
+                    'chunk_sample' => array_slice($chunk, 0, 2),
                 ]);
             }
         }
@@ -38,8 +37,8 @@ class IncomeAction
     /**
      * Process a single chunk and save to DB
      *
-     * @param  array  $chunk
      * @return int Number of processed items
+     *
      * @throws Exception
      */
     public function processChunk(array $chunk): int
@@ -57,8 +56,6 @@ class IncomeAction
     /**
      * Create or update an income record
      *
-     * @param  array  $incomeData
-     * @return Income
      * @throws Exception
      */
     public function execute(array $incomeData): Income
@@ -74,7 +71,7 @@ class IncomeAction
         } catch (Exception $e) {
             Log::error('IncomeAction failed', [
                 'error' => $e->getMessage(),
-                'incomeData' => $incomeData
+                'incomeData' => $incomeData,
             ]);
             throw $e;
         }

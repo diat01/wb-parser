@@ -40,10 +40,11 @@ class SyncOrdersData extends Command
 
         if (empty($orders)) {
             $this->error('No orders data received from API');
+
             return;
         }
 
-        $this->info("Processing ".count($orders)." orders records...");
+        $this->info('Processing '.count($orders).' orders records...');
 
         try {
             $action = app(OrderAction::class);

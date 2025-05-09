@@ -18,6 +18,7 @@ class ProcessSalesBatch implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 3;
+
     public array $backoff = [10, 30, 60];
 
     /**
@@ -30,6 +31,7 @@ class ProcessSalesBatch implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @throws Exception
      */
     public function handle(SaleAction $saleAction): void
@@ -41,14 +43,14 @@ class ProcessSalesBatch implements ShouldQueue
         try {
             $processed = $saleAction->processChunk($this->salesData);
 
-            Log::info("ProcessSalesBatch completed", [
+            Log::info('ProcessSalesBatch completed', [
                 'processed' => $processed,
-                'total' => count($this->salesData)
+                'total' => count($this->salesData),
             ]);
         } catch (Exception $e) {
-            Log::error("ProcessSalesBatch failed", [
+            Log::error('ProcessSalesBatch failed', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
             throw $e;
         }
@@ -59,9 +61,9 @@ class ProcessSalesBatch implements ShouldQueue
      */
     public function failed(Throwable $exception): void
     {
-        Log::critical("ProcessSalesBatch job failed after retries", [
+        Log::critical('ProcessSalesBatch job failed after retries', [
             'error' => $exception->getMessage(),
-            'data_sample' => array_slice($this->salesData, 0, 2)
+            'data_sample' => array_slice($this->salesData, 0, 2),
         ]);
     }
 }

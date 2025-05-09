@@ -24,7 +24,7 @@ class Order extends Model
         'category',
         'brand',
         'is_cancel',
-        'cancel_dt'
+        'cancel_dt',
     ];
 
     protected $casts = [
@@ -32,6 +32,6 @@ class Order extends Model
         'last_change_date' => 'date',
         'is_cancel' => 'boolean',
         'cancel_dt' => 'datetime',
-        'total_price' => 'decimal:2'
+        'total_price' => 'decimal:2',
     ];
 }

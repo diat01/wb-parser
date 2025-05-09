@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Log;
 class WbApiService
 {
     protected string $baseUrl;
+
     protected mixed $apiKey;
+
     protected mixed $defaultLimit;
 
     public function __construct()
@@ -53,12 +55,14 @@ class WbApiService
 
             if ($response->failed()) {
                 Log::error("WB API Error [{$endpoint}]: ".$response->status().' - '.$response->body());
+
                 return null;
             }
 
             return $response->json();
         } catch (\Exception $e) {
             Log::error("WB API Exception [{$endpoint}]: ".$e->getMessage());
+
             return null;
         }
     }
@@ -114,7 +118,7 @@ class WbApiService
                     ->acceptJson()
                     ->get($endpoint, $params);
 
-                if (!$response->successful()) {
+                if (! $response->successful()) {
                     Log::error("WB API Error [{$endpoint} - page {$page}]: ".$response->status().' - '.$response->body());
                     break;
                 }
@@ -125,7 +129,7 @@ class WbApiService
                     $totalPages = (int) $responseData['meta']['last_page'];
                 }
 
-                if (!empty($responseData['data'])) {
+                if (! empty($responseData['data'])) {
                     $allData = array_merge($allData, $responseData['data']);
                 }
 
@@ -154,7 +158,7 @@ class WbApiService
         ], $limit);
     }
 
-     public function getAllIncomes(string $dateFrom, string $dateTo, ?int $limit = null): array
+    public function getAllIncomes(string $dateFrom, string $dateTo, ?int $limit = null): array
     {
         return $this->getAllPagesForEndpoint('api/incomes', [
             'dateFrom' => $dateFrom,

@@ -12,7 +12,6 @@ class StockAction
     /**
      * Dispatch stock data in chunks to queue using ProcessStocksBatch job
      *
-     * @param  array  $stockData
      * @return int Number of dispatched records
      */
     public function executeBatch(array $stockData): int
@@ -27,7 +26,7 @@ class StockAction
             } catch (Exception $e) {
                 Log::error('Failed to dispatch ProcessStocksBatch job', [
                     'error' => $e->getMessage(),
-                    'chunk_sample' => array_slice($chunk, 0, 2)
+                    'chunk_sample' => array_slice($chunk, 0, 2),
                 ]);
             }
         }
@@ -38,8 +37,8 @@ class StockAction
     /**
      * Process a single chunk and save to DB
      *
-     * @param  array  $chunk
      * @return int Number of processed items
+     *
      * @throws Exception
      */
     public function processChunk(array $chunk): int
@@ -57,8 +56,6 @@ class StockAction
     /**
      * Create or update a stock record
      *
-     * @param  array  $stockData
-     * @return Stock
      * @throws Exception
      */
     public function execute(array $stockData): Stock
@@ -71,7 +68,7 @@ class StockAction
         } catch (Exception $e) {
             Log::error('StockAction failed', [
                 'error' => $e->getMessage(),
-                'stockData' => $stockData
+                'stockData' => $stockData,
             ]);
             throw $e;
         }

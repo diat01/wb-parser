@@ -18,13 +18,13 @@ class Income extends Model
         'total_price',
         'date_close',
         'warehouse_name',
-        'nm_id'
+        'nm_id',
     ];
 
     protected $casts = [
         'date' => 'date',
         'last_change_date' => 'date',
         'date_close' => 'date',
-        'total_price' => 'decimal:2'
+        'total_price' => 'decimal:2',
     ];
 }

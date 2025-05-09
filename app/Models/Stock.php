@@ -25,7 +25,7 @@ class Stock extends Model
         'brand',
         'sc_code',
         'price',
-        'discount'
+        'discount',
     ];
 
     protected $casts = [
@@ -34,6 +34,6 @@ class Stock extends Model
         'is_supply' => 'boolean',
         'is_realization' => 'boolean',
         'price' => 'decimal:2',
-        'discount' => 'decimal:2'
+        'discount' => 'decimal:2',
     ];
 }

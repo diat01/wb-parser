@@ -40,10 +40,11 @@ class SyncSalesData extends Command
 
         if (empty($sales)) {
             $this->error('No sales data received from API');
+
             return;
         }
 
-        $this->info("Processing ".count($sales)." sales records...");
+        $this->info('Processing '.count($sales).' sales records...');
 
         try {
             $action = app(SaleAction::class);

@@ -11,8 +11,6 @@ class OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -21,8 +19,6 @@ class OrderRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,7 +31,7 @@ class OrderRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(new Response($validator->errors(), 400, [
-            'Content-Type' => 'applications/json'
+            'Content-Type' => 'applications/json',
         ]));
     }
 }

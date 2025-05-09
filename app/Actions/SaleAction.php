@@ -12,7 +12,6 @@ class SaleAction
     /**
      * Dispatch sales data in chunks to queue using ProcessSalesBatch job
      *
-     * @param  array  $salesData
      * @return int Number of dispatched records
      */
     public function executeBatch(array $salesData): int
@@ -27,7 +26,7 @@ class SaleAction
             } catch (Exception $e) {
                 Log::error('Failed to dispatch ProcessSalesBatch job', [
                     'error' => $e->getMessage(),
-                    'chunk_sample' => array_slice($chunk, 0, 2)
+                    'chunk_sample' => array_slice($chunk, 0, 2),
                 ]);
             }
         }
@@ -38,8 +37,8 @@ class SaleAction
     /**
      * Process a single chunk and save to DB
      *
-     * @param  array  $chunk
      * @return int Number of processed items
+     *
      * @throws Exception
      */
     public function processChunk(array $chunk): int
@@ -57,8 +56,6 @@ class SaleAction
     /**
      * Create or update a sale record
      *
-     * @param  array  $saleData
-     * @return Sale
      * @throws Exception
      */
     public function execute(array $saleData): Sale
@@ -71,7 +68,7 @@ class SaleAction
         } catch (Exception $e) {
             Log::error('SalesAction failed', [
                 'error' => $e->getMessage(),
-                'saleData' => $saleData
+                'saleData' => $saleData,
             ]);
             throw $e;
         }

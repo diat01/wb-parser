@@ -32,16 +32,17 @@ class SyncStocksData extends Command
         $dateFrom = $this->option('dateFrom') ?? now()->format('Y-m-d');
         $limit = $this->option('limit');
 
-        $this->info("Syncing stocks data...");
+        $this->info('Syncing stocks data...');
 
         $stocks = $wbApiService->getAllStocks($dateFrom, $limit);
 
         if (empty($stocks)) {
             $this->error('No stocks data received from API');
+
             return;
         }
 
-        $this->info("Processing ".count($stocks)." stock records...");
+        $this->info('Processing '.count($stocks).' stock records...');
 
         try {
             $action = app(StockAction::class);

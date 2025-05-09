@@ -40,10 +40,11 @@ class SyncIncomesData extends Command
 
         if (empty($incomes)) {
             $this->error('No incomes data received from API');
+
             return;
         }
 
-        $this->info("Processing ".count($incomes)." incomes records...");
+        $this->info('Processing '.count($incomes).' incomes records...');
 
         try {
             $action = app(IncomeAction::class);
