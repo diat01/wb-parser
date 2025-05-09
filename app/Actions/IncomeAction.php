@@ -12,7 +12,7 @@ class IncomeAction
     /**
      * Dispatch income data in chunks to queue using the ProcessIncomesBatch job
      *
-     * @param array $incomeData
+     * @param  array  $incomeData
      * @return int Number of dispatched records
      */
     public function executeBatch(array $incomeData): int
@@ -38,7 +38,7 @@ class IncomeAction
     /**
      * Process a single chunk and save to DB
      *
-     * @param array $chunk
+     * @param  array  $chunk
      * @return int Number of processed items
      * @throws Exception
      */
@@ -57,7 +57,7 @@ class IncomeAction
     /**
      * Create or update an income record
      *
-     * @param array $incomeData
+     * @param  array  $incomeData
      * @return Income
      * @throws Exception
      */
@@ -65,7 +65,10 @@ class IncomeAction
     {
         try {
             return Income::updateOrCreate(
-                ['income_id' => $incomeData['income_id']],
+                [
+                    'income_id' => $incomeData['income_id'],
+                    'barcode' => $incomeData['barcode'],
+                ],
                 $incomeData
             );
         } catch (Exception $e) {
