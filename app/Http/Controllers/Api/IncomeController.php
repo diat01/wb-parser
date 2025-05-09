@@ -11,8 +11,6 @@ class IncomeController extends Controller
 {
     public function list(IncomeRequest $request): IncomesCollection
     {
-        dump(1);
-
         return new IncomesCollection(
             IncomeFilter::searchByRequest($request)
                 ->paginate($request->limit ?? 500));
